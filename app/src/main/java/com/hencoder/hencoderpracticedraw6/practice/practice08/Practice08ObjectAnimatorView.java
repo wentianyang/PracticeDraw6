@@ -1,5 +1,7 @@
 package com.hencoder.hencoderpracticedraw6.practice.practice08;
 
+import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,8 +10,6 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-
-import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
 
 public class Practice08ObjectAnimatorView extends View {
     final float radius = dpToPixel(80);
@@ -54,5 +54,14 @@ public class Practice08ObjectAnimatorView extends View {
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawText((int) progress + "%", centerX, centerY - (paint.ascent() + paint.descent()) / 2, paint);
+    }
+
+    public float getProgress() {
+        return progress;
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
+        invalidate();
     }
 }
