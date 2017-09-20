@@ -1,9 +1,14 @@
 package com.hencoder.hencoderpracticedraw6.practice;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
+
 import android.content.Context;
 import android.graphics.Outline;
 import android.graphics.Path;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
@@ -12,15 +17,16 @@ import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import com.hencoder.hencoderpracticedraw6.R;
-
-import static android.os.Build.VERSION.SDK_INT;
-import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
+import com.hencoder.hencoderpracticedraw6.Utils;
 
 public class Practice01Translation extends RelativeLayout {
+
     Button animateBt;
     ImageView imageView;
+
+    int translationStateCount = SDK_INT > VERSION_CODES.LOLLIPOP ? 6 : 4;
+    int translationState = 0;
 
     public Practice01Translation(Context context) {
         super(context);
@@ -49,6 +55,36 @@ public class Practice01Translation extends RelativeLayout {
             @Override
             public void onClick(final View v) {
                 // TODO 在这里处理点击事件，通过 View.animate().translationX/Y/Z() 来让 View 平移
+
+                switch (translationState) {
+                    case 0:
+                        imageView.animate().translationX(Utils.dpToPixel(100));
+                        break;
+                    case 1:
+                        imageView.animate().translationX(0);
+                        break;
+                    case 2:
+                        imageView.animate().translationY(Utils.dpToPixel(50));
+                        break;
+                    case 3:
+                        imageView.animate().translationY(0);
+                        break;
+                    case 4:
+                        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+                            imageView.animate().translationZ(Utils.dpToPixel(15));
+                        }
+                        break;
+                    case 5:
+                        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+                            imageView.animate().translationZ(0);
+                        }
+                        break;
+                }
+                translationState++;
+                if (translationState == translationStateCount) {
+                    translationState = 0;
+                }
+
             }
         });
     }
@@ -58,6 +94,7 @@ public class Practice01Translation extends RelativeLayout {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     class MusicOutlineProvider extends ViewOutlineProvider {
+
         Path path = new Path();
 
         {
